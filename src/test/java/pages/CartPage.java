@@ -2,6 +2,7 @@ package pages;
 
 import java.time.Duration;
 import java.util.Properties;
+
 import utils.Log;
 
 import org.openqa.selenium.By;
@@ -10,7 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import utils.ExtentTestManager;
 import utils.LocatorUtil;
 import utils.PropertyReader;
 
@@ -28,13 +28,10 @@ public class CartPage {
 
     public void clickCheckout() {
 
-        Log.logger.info("Waiting for Cart Page");
-        ExtentTestManager.getTest().info("Waiting for Cart Page to load");
-
+        Log.logStep("Waiting for Cart Page");
         wait.until(ExpectedConditions.urlContains("cart"));
 
-        Log.logger.info("Clicking Checkout Button");
-        ExtentTestManager.getTest().info("Clicking Checkout button");
+        Log.logStep("Clicking Checkout Button");
 
         By checkoutLocator = LocatorUtil.getLocator(prop.getProperty("checkout"));
 
@@ -44,7 +41,6 @@ public class CartPage {
 
         checkoutBtn.click();
 
-        Log.logger.info("Checkout clicked");
-        ExtentTestManager.getTest().pass("Checkout button clicked successfully");
+        Log.logStep("Checkout clicked");
     }
 }

@@ -2,6 +2,7 @@ package pages;
 
 import java.time.Duration;
 import java.util.Properties;
+
 import utils.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import utils.ExtentTestManager;
 import utils.LocatorUtil;
 import utils.PropertyReader;
 
@@ -27,17 +27,14 @@ public class LoginPage {
 
     public void login(String username, String password) {
 
-        Log.logger.info("Waiting for Login Page");
-        ExtentTestManager.getTest().info("Waiting for Login Page");
+        Log.logStep("Waiting for Login Page");
 
         By usernameLocator = LocatorUtil.getLocator(prop.getProperty("username"));
 
         WebElement usernameField = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(usernameLocator));
 
-        Log.logger.info("Entering Username");
-        ExtentTestManager.getTest().info("Entering Username");
-
+        Log.logStep("Entering Username");
         usernameField.clear();
         usernameField.sendKeys(username);
 
@@ -46,14 +43,11 @@ public class LoginPage {
         WebElement passwordField = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(passwordLocator));
 
-        Log.logger.info("Entering Password");
-        ExtentTestManager.getTest().info("Entering Password");
-
+        Log.logStep("Entering Password");
         passwordField.clear();
         passwordField.sendKeys(password);
 
-        Log.logger.info("Clicking Login Button"); 
-        ExtentTestManager.getTest().info("Clicking Login Button"); 
+        Log.logStep("Clicking Login Button");
 
         By loginBtnLocator = LocatorUtil.getLocator(prop.getProperty("loginButton"));
 
@@ -62,7 +56,6 @@ public class LoginPage {
 
         loginBtn.click();
 
-        Log.logger.info("Login successful");
-        ExtentTestManager.getTest().pass("Login successful");
+        Log.logStep("Login successful");
     }
 }
