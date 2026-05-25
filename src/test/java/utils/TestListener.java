@@ -13,7 +13,8 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        System.out.println("Execution Started");
+        // ✅ DO NOTHING HERE
+        System.out.println("Execution Started...");
     }
 
     @Override
@@ -25,13 +26,12 @@ public class TestListener implements ITestListener {
         );
 
         extentTest.assignCategory(result.getTestClass().getName());
-
         ExtentTestManager.setTest(extentTest);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentTestManager.getTest().pass("Test Passed");
+        ExtentTestManager.getTest().pass("✅ Test Passed");
     }
 
     @Override
@@ -39,10 +39,8 @@ public class TestListener implements ITestListener {
 
         ExtentTestManager.getTest().fail(result.getThrowable());
 
-        // ✅ GET DRIVER
         WebDriver driver = DriverFactory.getDriver();
 
-        // ✅ CAPTURE SCREENSHOT
         String path = ScreenshotUtil.capture(
                 driver,
                 result.getMethod().getMethodName()
@@ -58,12 +56,15 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        ExtentTestManager.getTest().skip("Test Skipped");
+        ExtentTestManager.getTest().skip("⚠️ Test Skipped");
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        extent.flush();
-        System.out.println("Execution Finished");
+
+        // ✅ ONLY PLACE WHERE flush SHOULD BE
+        ExtentManager.flushReport();
+
+        System.out.println("✅ Extent Report Generated");
     }
 }

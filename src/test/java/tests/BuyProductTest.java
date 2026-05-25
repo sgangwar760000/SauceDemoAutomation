@@ -8,46 +8,42 @@ import pages.CartPage;
 import pages.CheckoutPage;
 import pages.LoginPage;
 import pages.ProductsPage;
+import utils.ExtentTestManager;
 
 public class BuyProductTest extends BaseTest {
 
     @Test(description = "Verify user can successfully buy a product")
     public void buyProductTest() {
 
-        // ✅ Login
-        LoginPage login = new LoginPage(driver);
+        ExtentTestManager.getTest().info("Starting test");
 
+        LoginPage login = new LoginPage(driver);
         login.login(
                 config.getProperty("username"),
                 config.getProperty("password")
         );
 
-        // ✅ Add Product to Cart
+        ExtentTestManager.getTest().pass("Login successful");
+
         ProductsPage product = new ProductsPage(driver);
         product.addProductToCart();
 
-        // ✅ Navigate to Checkout
+        ExtentTestManager.getTest().pass("Product added");
+
         CartPage cart = new CartPage(driver);
         cart.clickCheckout();
 
-        // ✅ Read data from config (CORRECT KEYS ✅)
+        ExtentTestManager.getTest().info("Checkout started");
+
         String firstName = config.getProperty("firstName");
         String lastName = config.getProperty("lastName");
         String zipCode = config.getProperty("zipCode");
 
-        // ✅ Debug check (optional but useful)
-        System.out.println("First Name: " + firstName);
-        System.out.println("Last Name: " + lastName);
-        System.out.println("Zip Code: " + zipCode);
-
-        // ✅ Complete Order
         CheckoutPage checkout = new CheckoutPage(driver);
         checkout.completeOrder(firstName, lastName, zipCode);
 
-        // ✅ Validation
-        Assert.assertTrue(
-                checkout.isOrderSuccessful(),
-                "❌ Order was not successful"
-        );
+        Assert.assertTrue(checkout.isOrderSuccessful());
+
+        ExtentTestManager.getTest().pass("Order completed ✅");
     }
 }
